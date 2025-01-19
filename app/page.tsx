@@ -1,11 +1,18 @@
+import { auth } from "@/auth";
 import DbConnectCard from "@/components/DbConnectCard";
+import { redirect } from "next/navigation";
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth();
+
+  if (!session) redirect("/login");
+
   return (
-    <main className="flex h-screen items-center justify-center">
-      <div className="flex flex-col items-center gap-12 sm:items-start">
-        <h1 className="text-xl">
-          つなぐ &middot; <span className="tracking-wider">connect</span>
+    <main className="fade-in container mx-auto flex flex-grow items-center justify-center">
+      <div className="space-y-10">
+        <h1 className="text-center text-4xl">
+          つなぐ &middot;{" "}
+          <span className="tracking-wider opacity-75">connect</span>
         </h1>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <DbConnectCard

@@ -1,3 +1,4 @@
+import LoginForm from "@/components/LoginForm";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -6,9 +7,8 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <div>
-      <h1>Login component</h1>
-      {/* TODO: Login component  */}
-    </div>
+    <main className="fade-in container mx-auto flex flex-grow items-center justify-center">
+      <LoginForm />
+    </main>
   );
 }

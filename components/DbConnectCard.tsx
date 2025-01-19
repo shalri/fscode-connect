@@ -1,7 +1,6 @@
 "use client";
-
-import { disconnectNeonDb } from "@/database/neon";
 import { useDbConnect } from "@/hooks/useDbConnect";
+import { cn } from "@/lib/utils";
 
 interface DbConnectionProps {
   dbName: string;
@@ -22,11 +21,16 @@ export default function DbConnectCard({
   return (
     <section className="flex flex-col items-center gap-y-2">
       <div className="flex w-full min-w-[300px] flex-col rounded-md border border-cyan-900 px-6 py-4">
-        <code className="font-mono">{dbName}</code>
-        <code className="font-mono">
+        <code className="font-mono text-cyan-200">{dbName}</code>
+        <code
+          className={cn(
+            "font-mono text-sm text-gray-500 transition-all duration-[1200ms]",
+            status === "Ok" && "text-cyan-500",
+          )}
+        >
           db status:{" "}
           {status === "connecting" ? (
-            <span>connecting...</span>
+            <span className="text-cyan-900">connecting...</span>
           ) : status === "error" ? (
             <span>{error}</span>
           ) : (
@@ -37,7 +41,11 @@ export default function DbConnectCard({
       <div className="">
         <button
           onClick={toggleConnection}
-          className="rounded border border-cyan-900 px-4 py-2 font-mono"
+          className={cn(
+            "transtion-all rounded border border-cyan-900 px-4 py-2 font-mono text-sm text-cyan-100/75 duration-300",
+            status !== "connecting" &&
+              "hover:border-cyan-200 hover:text-white/100",
+          )}
           disabled={status === "connecting"}
         >
           {status === "Ok" ? "Disconnect" : "Connect"}
