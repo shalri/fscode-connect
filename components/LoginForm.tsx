@@ -6,6 +6,10 @@ export default function LoginForm() {
   const [error, setError] = useState("");
 
   const handleSubmit = async (formData: FormData) => {
+    // Reset the error state before attempting to authenticate
+    // This prevents the error message from displaying when
+    // correct credentials are provided
+    setError("");
     try {
       await authenticate(formData);
     } catch (error) {
