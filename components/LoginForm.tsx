@@ -10,7 +10,7 @@ export default function LoginForm() {
       await authenticate(formData);
     } catch (error) {
       console.error("Failed to log in:", error);
-      setError("invalid email or password");
+      setError("Invalid email or password");
     }
   };
   return (

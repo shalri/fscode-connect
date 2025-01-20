@@ -11,14 +11,18 @@ export function useDbConnect(connectDbApi: string, disconnectDbApi: string) {
       try {
         const response = await fetch(connectDbApi);
         const data = await response.json();
-        if (data.message) {
+
+        if (!response.ok || data.error) {
+          setStatus("error");
+          setError(data.error || "Failed to connect");
+        } else if (data.message) {
           setStatus("Ok");
           setError(null);
         }
       } catch (error) {
         console.log("Failed to connect to database:", error);
         setStatus("error");
-        setError("Failed to connect to database");
+        setError("Failed to connect");
       }
     };
     dbConnect();
@@ -32,15 +36,20 @@ export function useDbConnect(connectDbApi: string, disconnectDbApi: string) {
         { method: status === "Ok" ? "POST" : "GET" },
       );
       const data = await response.json();
-      if (data.message) {
+      if (!response.ok || data.error) {
+        setStatus("error");
+        setError(
+          data.error ||
+            `Failed to ${status === "Ok" ? "disconnect" : "connect"}`,
+        );
+      } else if (data.message) {
         setStatus(status === "Ok" ? "Disconnected" : "Ok");
         setError(null);
       }
     } catch (error) {
-      // TODO: handle error message
-      console.log("Failed to toggle database connection");
+      console.log("Failed to toggle database connection:", error);
       setStatus("error");
-      setError("Failed to toggle database connection");
+      setError(`Failed to ${status === "Ok" ? "disconnect" : "connect"}`);
     }
   };
   return { status, error, toggleConnection };
